@@ -1,60 +1,65 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import MaterialTable from 'material-table';
-import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
+import {useHistory} from 'react-router-dom';
+import {favourites} from '../api/favourites'
 
-
-const useStyles = makeStyles((theme) => ({
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: 120,
-    },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
-    },
-  }));
 
 function FavouritesTable() {
 
 
+    const [itemFavourites, setItemFavourites] = useState ([])
 
-    const classes = useStyles();
-    const [age, setAge] = React.useState(20);
+    useEffect(() => {
+        favourites(setItemFavourites)
+    }, [])
 
-    const handleChange = (event) => {
-        setAge(event.target.value);
-    };
 
-    const data = [
-        {id:'#323456789',product:'Kit KAt',price:'$120',}
-    ]
+    
+
+     const removeFavourites = (id) => {
+
+
+        let tokenUser = localStorage.getItem('user_token')
+        var axios = require('axios');
+        var data = new FormData();
+        data.append('id', id);
+
+        var config = {
+            method: 'DELETE',
+            url: `http://127.0.0.1:8000/products/favourites`,
+            headers: { 
+                'Authorization': `token ${tokenUser}`, 
+            },
+            data: data
+        };
+
+        axios(config)
+        .then(function (response) {
+            console.log(response.data)
+            favourites(setItemFavourites)
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+
+
+
+    let history = useHistory()
 
     const columns = [
         {
-            title: 'Order Id',field:'id'
+            title: 'Product Id',field:'id'
         },
         {
-            title: 'Product',field:'product'
+            title: 'Product Name',field:'product_name'
         },
         {
             title: 'price',field:'price'
         },
-
         {
-            title: "Track Order",
-            field: "internal_action",
-            editable: false,
-            render: (rowData) =>
-                rowData && (
-                 <Button variant="contained"  style={{background: '#0F956A',color: '#fff'}}>
-                    Add To Cart 
-                  </Button>
-                )
+            title: 'Offer price',field:'offer_price'
         },
 
         {
@@ -63,8 +68,23 @@ function FavouritesTable() {
             editable: false,
             render: (rowData) =>
                 rowData && (
-                 <Button variant="contained"  style={{background: '#D04545',color: '#fff'}}>
+                 <Button variant="contained" onClick={() => removeFavourites(rowData.id)}  style={{background: '#D04545',color: '#fff'}}>
                     Remove
+                  </Button>
+                )
+        },
+
+        {
+            title: "View",
+            field: "internal_action",
+            editable: false,
+            render: (rowData) =>
+                rowData && (
+                 <Button onClick={() => {
+                     console.log(rowData.id)
+                     history.push(`/detail/${rowData.id}`)
+                 }} variant="contained"  style={{background: 'green',color: '#fff'}}>
+                    View Order
                   </Button>
                 )
         },
@@ -76,23 +96,12 @@ function FavouritesTable() {
             <div id="content">
                 <MaterialTable 
                     title="All Orders" 
-                    data={data}
+                    data={itemFavourites}
                     columns={columns}
                     options={{
                         sorting: true,
                         actionsColumnIndex: -1
                     }}
-
-
-                    actions={[
-                    {
-                        icon: 'visibility',
-                        tooltip: 'View Order',
-                        onClick: (event, rowData) => {
-                            console.log(rowData.name);
-                        }
-                    }
-                    ]}
 
                     
 

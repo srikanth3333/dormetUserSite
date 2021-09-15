@@ -18,6 +18,30 @@ body,html {
     padding: 10vw 0vw;
 }
 
+a {
+    text-decoration: none;
+}
+
+.MTableHeader-header-13 {
+    background-color: #f3cc56 !important;
+}
+
+i {
+    font-size: 30px;
+    color: #fff;
+}
+
+.profile_img {
+    height: 40px;
+    object-fit: contain;
+    border-radius: 20px;
+
+}
+
+.navbar_main .dropdown-item {
+    color: #212529 !important;
+}
+
 .main_reg {
     padding: 0vw 6vw;
 }
@@ -73,10 +97,6 @@ body,html {
     border-color: #989898;
 }
 
-.btn-success {
-    background-color: #2AA786;
-    border: 0px;
-}
 
 .text-success {
     color: #2AA786 !important;
@@ -110,9 +130,18 @@ body,html {
 }
 
 .btn-light {
-    color: #2AA786;
+    color: #2AA786 !important;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
 }
 
+.btn-outline-success {
+    color: #198754 !important;
+}
+
+.btn-outline-success:hover {
+    color: #fff !important;
+}
 .container-fluid {
     padding: 0vw 10vw;
 }
@@ -229,8 +258,9 @@ section {
 }
 
 .gold__text {
-    color: #FFC107;
-    font-size: 14px;
+    color: #FFC107 !important;
+    font-size: 16px !important;
+    text-decoration: none !important;
 }
 
 .content:hover {
@@ -396,4 +426,16 @@ tbody, td, tfoot, th, thead, tr {
     z-index: 10;
     position: sticky;
     background-color: #FFF3D0 !important;
+}
+
+.MuiSvgIcon-fontSizeLarge {
+    cursor: pointer !important;
+}
+
+.success-active {
+    color: #fff !important;
+}
+
+.p-nav .active {
+    color: #fff !important;
 }

@@ -1,71 +1,76 @@
-import React from 'react'
+import React, {useState,useEffect} from 'react';
+import {profile} from '../api/profile';
 
 function Profile() {
+
+    const [name,setName] = useState('')
+    const [email,setEmail] = useState('')
+    const [mobile,setMobile] = useState('')
+
+    useEffect(() => {
+        profile(setEmail,setName,setMobile)
+    }, [])
+
+
+    const formSubmit = (e) => {
+        e.preventDefault()
+        console.log('fired')
+        let tokenUser = localStorage.getItem('user_token')
+        var axios = require('axios');
+        var data = new FormData();
+        data.append('name', name);
+        data.append('email', email);
+        data.append('mobile', mobile)
+
+        var config = {
+            method: 'POST',
+            url: 'http://127.0.0.1:8000/products/profile',
+            headers: { 
+                'Authorization': `token ${tokenUser}`, 
+            },
+            data: data
+        };
+
+        axios(config)
+        .then(function (response) {
+            profile(setEmail,setName,setMobile)
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+
     return (
         <div className="container-fluid">
-            <form action="">
-                                <div className="row">
-                                    <div className="col-lg-4">
-                                        <div className="form-group">
-                                            <label htmlFor="">Name</label>
-                                            <input type="text" className="form-control" placeholder="Enter name" />
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-4">
-                                        <div className="form-group">
-                                            <label htmlFor="">Last Name</label>
-                                            <input type="text" className="form-control" placeholder="name" />
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-4">
-                                        <div className="form-group">
-                                            <label htmlFor="">Email Address</label>
-                                            <input type="text" className="form-control" placeholder="email" />
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-8">
-                                        <div className="form-group">
-                                            <label htmlFor="">Address Line 1</label>
-                                            <input type="text" className="form-control" placeholder="Address" />
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-4">
-                                        <div className="form-group">
-                                            <label htmlFor="">Phone Number</label>
-                                            <input type="text" className="form-control" placeholder="Mobile" />
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-12">
-                                        <div className="form-group">
-                                            <label htmlFor="">Address Line 2 / landmark</label>
-                                            <input type="text" className="form-control" placeholder="Address 2" />
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-6">
-                                        <div className="form-group">
-                                            <label htmlFor="">Pincode</label>
-                                            <input type="text" className="form-control" placeholder="pincode" />
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-6">
-                                        <div className="form-group">
-                                            <label htmlFor="">City</label>
-                                            <input type="text" className="form-control" placeholder="city" />
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-12">
-                                        <div className="form-group">
-                                            <label htmlFor="">State</label>
-                                            <input type="text" className="form-control" placeholder="state" />
-                                        </div>
-                                    </div>
-                                </div>
+            <form onSubmit={(e) => formSubmit(e)} method="post">
+                <div className="row">
+                    <div className="col-lg-12 text-center">
+                        <img src="http://ormondemining.com/wp-content/uploads/2020/10/person-icon-silhouette-png-0-300x300.jpg" style={{height: '140px',borderRadius: '20px'}} alt="" className="img-fluid" />
+                    </div>
+                    <div className="col-lg-12">
+                        <div className="form-group">
+                            <label htmlFor="">Email</label>
+                            <input type="text" onChange={(e) => setEmail(e.target.value)} className="form-control" value={email} placeholder="Enter name" />
+                        </div>
+                    </div>
+                    <div className="col-lg-12">
+                        <div className="form-group">
+                            <label htmlFor="">Mobile Number</label>
+                            <input type="number" disabled onChange={(e) => setMobile(e.target.value)} className="form-control" value={mobile} placeholder="name" />
+                        </div>
+                    </div>
+                    <div className="col-lg-12">
+                        <div className="form-group">
+                            <label htmlFor="">Name</label>
+                            <input type="text" onChange={(e) => setName(e.target.value)} className="form-control" value={name} placeholder="email" />
+                        </div>
+                    </div>
+                </div>
 
-
-                                <div className="d-flex justify-content-end mt-4">
-                                    <button className="btn btn-success">Save</button>
-                                </div>
-                            </form>
+                <div className="d-flex justify-content-center mt-4">
+                    <button type="submit" className="btn btn-success">Update Profile</button>
+                </div>
+            </form>
         </div>
     )
 }

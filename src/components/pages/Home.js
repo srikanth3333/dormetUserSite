@@ -1,18 +1,30 @@
-import React from 'react';
-import Navbar from '../navigation/Navbar';
+import React, {useEffect, useState} from 'react';
 import Footer from '../navigation/Footer';
 import delivery from "../img/fastest_delivery_landing_page.png";
 import offer from "../img/exciting_offers.png";
 import cancel from "../img/cancellations_landing_page.png";
-import shop from "../img/shop.jpg";
-import product from "../img/product.jpg";
-import star from "../img/star.png";
-import fav from "../img/heart.png";
+import {Link} from 'react-router-dom';
+import {getProducts} from '../api/getProducts';
+import {getShops} from '../api/getShops';
+import {allRatings} from '../api/allRatings';
+import Product from '../navigation/Product';
+import ExtendShop from '../navigation/ExtendShop';
+ 
 
 function Home() {
+
+    const [products,setProducts] = useState ([])
+    const [shops,setShops] = useState ([])
+    const [ratings,setRatings] = useState ([])
+
+    useEffect(() => {
+        getProducts(setProducts)
+        getShops(setShops)
+        allRatings(setRatings)
+    }, [])
+
     return (
         <div>
-            <Navbar />
                 <div className="home"> 
                     <div className="container-fluid">
                         <div className="row">
@@ -22,8 +34,8 @@ function Home() {
                                 <p className="home_text">Get your Delivery less than 20 minutes*</p>
 
                                 <div className="btn__box d-flex">
-                                    <button className="btn btn-success me-4">Browse Shops</button>
-                                    <button className="btn btn-outline-success">Browse products</button>
+                                    <Link to="/shops" className="btn btn-success me-4">Browse Shops</Link>
+                                    <Link to="/products" className="btn btn-outline-success">Browse products</Link>
                                 </div>
                             </div>
                         </div>
@@ -50,234 +62,19 @@ function Home() {
                         <div className="container-fluid">
                             <div className="d-flex ">
                                  <h5 className="sec-header me-3"> SHOPS NEARBY</h5>
-                                 <span className="gold__text mt-1"> All Shops ></span>
+                                 <Link to="/shops" className="gold__text mt-1"> All Shops ></Link>
                             </div>
                             <div className="row">
-                                <div className="col-lg-2">
-                                    <img src={shop} className="content-img" alt="" />
-                                    <div className="content-text text-center">
-                                        <p>Shop Name Twenty </p>
-                                        <div className="d-flex justify-content-center">
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-2">
-                                    <img src={shop} className="content-img" alt="" />
-                                    <div className="content-text text-center">
-                                        <p>Shop Name Twenty </p>
-                                        <div className="d-flex justify-content-center">
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-2">
-                                    <img src={shop} className="content-img" alt="" />
-                                    <div className="content-text text-center">
-                                        <p>Shop Name Twenty </p>
-                                        <div className="d-flex justify-content-center">
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-2">
-                                    <img src={shop} className="content-img" alt="" />
-                                    <div className="content-text text-center">
-                                        <p>Shop Name Twenty </p>
-                                        <div className="d-flex justify-content-center">
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-2">
-                                    <img src={shop} className="content-img" alt="" />
-                                    <div className="content-text text-center">
-                                        <p>Shop Name Twenty </p>
-                                        <div className="d-flex justify-content-center">
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-2">
-                                    <img src={shop} className="content-img" alt="" />
-                                    <div className="content-text text-center">
-                                        <p>Shop Name Twenty </p>
-                                        <div className="d-flex justify-content-center">
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                            <img src={star} alt="" className="star-img" />
-                                        </div>
-                                    </div>
-                                </div>
+                                <ExtendShop extShops={shops} />
                             </div>
 
 
                             <div className="d-flex mt-5">
                                  <h5 className="sec-header me-3">FEATURED PRODUCTS</h5>
-                                 <span className="gold__text mt-1"> All Products ></span>
+                                 <Link to="/products" className="gold__text mt-1"> All Products ></Link>
                             </div>
-
                             <div className="row">
-                                <div className="col-lg-2">
-                                    <img src={product} className="content-img" alt="" />
-                                    <div className="d-flex justify-content-end">
-                                        <img src={fav} className="fav" alt="" />
-                                    </div>
-                                    <div className="content-text ">
-                                        <p>Kit Kat Chocolate </p>
-                                        <div className="d-flex justify-content-between align-items-center">
-                                            <div className="">
-                                                <p className="gm mb-0">500g</p>
-                                                
-                                            </div>
-                                            <div>
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                            </div>
-                                        </div>
-                                        <p className="price ms-2">$230 <del>$280</del></p>
-                                    </div>
-                                </div>
-                                <div className="col-lg-2">
-                                    <img src={product} className="content-img" alt="" />
-                                    <div className="d-flex justify-content-end">
-                                        <img src={fav} className="fav" alt="" />
-                                    </div>
-                                    <div className="content-text ">
-                                        <p>Kit Kat Chocolate </p>
-                                        <div className="d-flex justify-content-between align-items-center">
-                                            <div className="">
-                                                <p className="gm mb-0">500g</p>
-                                                
-                                            </div>
-                                            <div>
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                            </div>
-                                        </div>
-                                        <p className="price ms-2">$230 <del>$280</del></p>
-                                    </div>
-                                </div>
-                                <div className="col-lg-2">
-                                    <img src={product} className="content-img" alt="" />
-                                    <div className="d-flex justify-content-end">
-                                        <img src={fav} className="fav" alt="" />
-                                    </div>
-                                    <div className="content-text ">
-                                        <p>Kit Kat Chocolate </p>
-                                        <div className="d-flex justify-content-between align-items-center">
-                                            <div className="">
-                                                <p className="gm mb-0">500g</p>
-                                                
-                                            </div>
-                                            <div>
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                            </div>
-                                        </div>
-                                        <p className="price ms-2">$230 <del>$280</del></p>
-                                    </div>
-                                </div>
-                                <div className="col-lg-2">
-                                    <img src={product} className="content-img" alt="" />
-                                    <div className="d-flex justify-content-end">
-                                        <img src={fav} className="fav" alt="" />
-                                    </div>
-                                    <div className="content-text ">
-                                        <p>Kit Kat Chocolate </p>
-                                        <div className="d-flex justify-content-between align-items-center">
-                                            <div className="">
-                                                <p className="gm mb-0">500g</p>
-                                                
-                                            </div>
-                                            <div>
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                            </div>
-                                        </div>
-                                        <p className="price ms-2">$230 <del>$280</del></p>
-                                    </div>
-                                </div>
-                                <div className="col-lg-2">
-                                    <img src={product} className="content-img" alt="" />
-                                    <div className="d-flex justify-content-end">
-                                        <img src={fav} className="fav" alt="" />
-                                    </div>
-                                    <div className="content-text ">
-                                        <p>Kit Kat Chocolate </p>
-                                        <div className="d-flex justify-content-between align-items-center">
-                                            <div className="">
-                                                <p className="gm mb-0">500g</p>
-                                                
-                                            </div>
-                                            <div>
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                            </div>
-                                        </div>
-                                        <p className="price ms-2">$230 <del>$280</del></p>
-                                    </div>
-                                </div>
-                                <div className="col-lg-2">
-                                    <img src={product} className="content-img" alt="" />
-                                    <div className="d-flex justify-content-end">
-                                        <img src={fav} className="fav" alt="" />
-                                    </div>
-                                    <div className="content-text ">
-                                        <p>Kit Kat Chocolate </p>
-                                        <div className="d-flex justify-content-between align-items-center">
-                                            <div className="">
-                                                <p className="gm mb-0">500g</p>
-                                                
-                                            </div>
-                                            <div>
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                                <img src={star} alt="" className="star-img-small" />
-                                            </div>
-                                        </div>
-                                        <p className="price ms-2">$230 <del>$280</del></p>
-                                    </div>
-                                </div>
+                                <Product product={products} mainRatings={ratings} />
                             </div>
                             
                         </div>

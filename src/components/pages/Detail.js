@@ -1,119 +1,151 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Slider from '../basic/Slider';
-import Navbar from '../navigation/Navbar';
 import Footer from '../navigation/Footer';
 import star from "../img/star.png";
+import {productDetail} from '../api/productDetail';
+import {addToCart} from '../api/addToCart';
+import {addRatings} from '../api/addRatings';
+import {productRatings} from '../api/productRatings';
+import {useParams,Link,useHistory} from 'react-router-dom';
+import StarRating from '../navigation/StarRating';
+import ReactStars from "react-rating-stars-component";
 
-function Detail() {
+
+function Detail({token}) {
+
+    const {id} = useParams();
+    let history = useHistory();
+
+    const [product,setProduct] = useState ([])
+    const [ratings,setRatings] = useState ([])
+    const [comment,setComment] = useState ('')
+    const [quantity,setQuantity] = useState ('50grams')
+    const [userRating,setUserRating] = useState ('')
+
+    useEffect(() => {
+        productRatings(setRatings,id)
+        productDetail(setProduct,id)
+    }, [])
+
+    const ratingChanged = (newRating) => {
+        setUserRating(newRating)
+    };
+
+
+    const addFavourites = (id) => {
+
+
+        let tokenUser = localStorage.getItem('user_token')
+        var axios = require('axios');
+        var data = new FormData();
+        data.append('id', id);
+
+        var config = {
+            method: 'POST',
+            url: `http://127.0.0.1:8000/products/favourites`,
+            headers: { 
+                'Authorization': `token ${tokenUser}`, 
+            },
+            data: data
+        };
+
+        axios(config)
+        .then(function (response) {
+            console.log(response.data)
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+
     return (
         <div className="detail_page">
-            <Navbar />
             <section>
                 <div className="container-fluid">
                         <div className="row">
-                            <div className="col-lg-6">
+                            <div className="col-lg-6 text-center">
                                 <Slider />
                             </div>
                             <div className="col-lg-6">
-                                <h3 className="product-title">Kit Kat Chocolate of Pack 10</h3>
+                                <h3 className="product-title">{product.product_name}</h3>
                                 <div className="d-flex">
-                                    <button className="btn btn-outline-success me-3">20g</button>
-                                    <button className="btn btn-success me-3">50g</button>
-                                    <button className="btn btn-outline-success me-3">100g</button>
+                                    {["50grams","100grams","1kg"].map((button,i) => {
+                                        return (
+                                            <button onClick={() => setQuantity(button)} className={quantity == button ? `btn btn-success me-3` : `btn btn-outline-success me-3`}>{button}</button>
+                                        )
+                                    })}
                                 </div>
                                 <div className="d-flex mt-3 align-items-center">
-                                    <img src={star} height="15" className="me-2" alt="" />58 Ratings and 12 Reviews
+                                    <img src={star} height="15" className="me-2" alt="" />{ratings.length} Ratings
                                 </div>
-                                <p className="text-danger main-price">MRP <del>$904</del></p>
-                                <p className="main-price">Best Price $640 <span className="small text-danger">20% off</span><span className="small mx-2">sold by</span><span className="text-success small-md">Shop Name Twenty One</span></p>
+                                <p className="text-danger main-price">MRP ${product.offer_price} <del>${product.price}</del></p>
+                                <p className="main-price">Best Price ${product.offer_price} <span className="small text-danger">20% off</span><span className="small mx-2">sold by</span>
+                                    <span className="text-success small-md">{ product.shop && product.shop.shop_name != undefined ? product.shop.shop_name : null}</span>
+                                    
+                                </p>
 
                                 <div className="d-flex">
-                                    <button className="btn btn-outline-success me-3">ADD TO CART</button>
-                                    <button className="btn btn-success">BUY NOW</button>
+                                    {token ? 
+                                        <>
+                                            <button onClick={() => addToCart(id,quantity,token)} className="btn btn-outline-success me-3">ADD TO CART</button>
+                                            <button  onClick={() => {
+                                                addToCart(id,token)
+                                                history.push('/cart')
+                                            }} className="btn btn-success">BUY NOW</button>
+                                        </>
+                                    : 
+                                        <>
+                                            <Link to="/login" className="btn btn-outline-success me-3">ADD TO CART</Link>
+                                            <Link to="/login" className="btn btn-success">BUY NOW</Link>
+                                        </>
+                                    }
+                                    
+                                    
                                 </div>
 
                                 <div className="d-flex mt-3">
-                                    <button className="btn btn-secondary">ADD TO FAVOURITES</button>
+                                    <button className="btn btn-secondary" onClick={() => addFavourites(product.id)}>ADD TO FAVOURITES</button>
                                     <button className="btn btn-secondary">SHARE THIS PRODUCT</button>
-                                </div>
-                                <div className="my-4">
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi aut vel officia illo earum consequuntur, laudantium est fugit repellat dolorum molestias assumenda sunt, aperiam aliquid nemo dolores! Vitae, ipsa harum.</p>
                                 </div>
 
                                 <div className="my-4">
                                     <h5 className="text-dark">Product Details</h5>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto deleniti voluptas velit pariatur, placeat exercitationem omnis non autem earum quisquam accusantium alias labore dolores aliquam consectetur provident, molestias molestiae! Qui odit veritatis ipsam soluta, rem dolor corrupti sequi corporis doloremque ratione eligendi neque tenetur doloribus reiciendis accusantium a. Consequuntur, optio!</p>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nulla aliquam tenetur, facere accusantium, quia in incidunt commodi sequi molestias, suscipit eius? Distinctio officiis illo tenetur voluptatum laudantium at tempora!</p>
+                                    <p>{product.products_description}</p>
                                 </div>
                             </div>
 
                         </div>
 
-                        <h3 className="detail-head">RATINGS & REVIEWS</h3>
+                        <h3 className="detail-head mt-5">RATINGS & REVIEWS</h3>
+                        
                         <div className="row mt-3">
                             <div className="col-lg-6">
-                                <div className="d-flex align-items-center">
-                                    <img src="https://image.flaticon.com/icons/png/512/3135/3135715.png" className="me-2" height="50px" alt="" />
-                                    <p className="user-name mb-0 me-2">Random User</p>
-                                    <img src={star} height="20px" alt="" />
-                                    <img src={star} height="20px" alt="" />
-                                    <img src={star} height="20px" alt="" />
-                                    <img src={star} height="20px" alt="" />
-                                    <img src={star} height="20px" alt="" />
-                                    <p className="mb-0 ms-2">5 Ratings</p>
-                                    
-                                </div>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur beatae excepturi culpa cum libero reprehenderit facilis deserunt eligendi maiores voluptates fugiat, odit animi facere, veritatis commodi non at. Rem, voluptatem.</p>
-
-                                <div className="d-flex align-items-center">
-                                    <img src="https://image.flaticon.com/icons/png/512/3135/3135715.png" className="me-2" height="50px" alt="" />
-                                    <p className="user-name mb-0 me-2">Random User 2</p>
-                                    <img src={star} height="20px" alt="" />
-                                    <img src={star} height="20px" alt="" />
-                                    <img src={star} height="20px" alt="" />
-                                    <img src={star} height="20px" alt="" />
-                                    <img src={star} height="20px" alt="" />
-                                    <p className="mb-0 ms-2">5 Ratings</p>
-                                    
-                                </div>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur beatae excepturi culpa cum libero reprehenderit facilis deserunt eligendi maiores voluptates fugiat, odit animi facere, veritatis commodi non at. Rem, voluptatem.</p>
+                               {ratings.map((rating,i) => {
+                                    return (
+                                        <>
+                                            <div className="d-flex align-items-center my-3">
+                                                <p className="user-name mb-0 me-2 mb-0">{rating.user.username}</p>
+                                                    <StarRating ratings={rating.ratings} />
+                                                <p className="mb-0 ms-2 mb-0">{rating.ratings} Rating</p>
+                                            </div>
+                                            <p>{rating.comment}</p> 
+                                        </>
+                                    )
+                                })}
                             </div>
                             <div className="col-lg-6">
                                 <span style={{fontSize: '3em'}}>4.5 Ratings</span>
-                                <div className="d-flex">
-                                    <img src={star} height="20px" className="me-2" alt="" />
-                                    <img src={star} height="20px" className="me-2" alt="" />
-                                    <img src={star} height="20px" className="me-2" alt="" />
-                                    <img src={star} height="20px" className="me-2" alt="" />
-                                    <img src={star} height="20px" className="me-2" alt="" />
-                                    452
-                                </div>
-                                <div className="d-flex">
-                                    <img src={star} height="20px" className="me-2" alt="" />
-                                    <img src={star} height="20px" className="me-2" alt="" />
-                                    <img src={star} height="20px" className="me-2" alt="" />
-                                    <img src={star} height="20px" className="me-2" alt="" />
-                                    12
-                                </div>
-                                <div className="d-flex">
-                                    <img src={star} height="20px" className="me-2" alt="" />
-                                    <img src={star} height="20px" className="me-2" alt="" />
-                                    <img src={star} height="20px" className="me-2" alt="" />
-                                    10
-                                </div>
-                                <div className="d-flex">
-                                    <img src={star} height="20px" className="me-2" alt="" />
-                                    <img src={star} height="20px" className="me-2" alt="" />
-                                    12
-                                </div>
-                                <div className="d-flex">
-                                    <img src={star} height="20px" className="me-2" alt="" />
-                                    1
-                                </div>
-
                                 <div className="mt-2">
-                                    <input type="text" className="form-control form-main" placeholder="Please write your review" />
-                                    <button className="btn btn-success mt-3 text-right">Submit</button>
+                                    <ReactStars
+                                            count={5}
+                                            onChange={ratingChanged}
+                                            size={50}
+                                            activeColor="#ffd700"
+                                    />
+                                    <textarea type="text" onChange={(e) => setComment(e.target.value)} rows="5" col="5" className="form-control form-main" placeholder="Please write your review" />
+                                    {token ? <button onClick={() => {
+                                        addRatings(id,userRating,comment,token,productRatings,setRatings)
+                                    }} className="btn btn-success mt-3 text-right">Submit</button> : <Link to="/login" className="btn btn-success mt-3 text-right">Login First</Link>}
                                 </div>
                             </div>
                         </div>

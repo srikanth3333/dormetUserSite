@@ -12,7 +12,6 @@ export default class Otp extends Component {
         value={this.state.otp}
         onChange={this.handleChange}
         numInputs={4}
-        // separator={<span></span>}
       />
     );
   }

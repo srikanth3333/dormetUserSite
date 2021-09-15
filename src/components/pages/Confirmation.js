@@ -1,14 +1,14 @@
 import React from 'react';
-import Navbar from '../navigation/Navbar';
 import Footer from '../navigation/Footer';
 import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
-import card from "../img/card.jpg";
-
+import {useParams,Link} from 'react-router-dom';
 
 function Confirmation() {
+
+    let {id} = useParams()
+
     return (
         <div className="main-checkout">
-            <Navbar />
             <section className="checkout">
                 <div className="container-fluid">
                     <div className="d-flex justify-content-between align-items-center step-box">
@@ -45,11 +45,11 @@ function Confirmation() {
                         <DoneOutlineIcon style={{color: '#fff',fontSize: '50px', backgroundColor: '#2AA786',borderRadius: '50%',padding: '4px',marginBottom: '0.6em'}} />
                         <h6 className="confirm-text">
                             
-                            Well Done ! order #345resedft has been successfully placed
+                            Well Done ! order #{id} has been successfully placed
 
                         </h6>
                         <p className="light">Your can track your order status via <span className="text-success">My Orders</span></p>
-                        <button className="btn btn-success">Continue Shopping</button>
+                        <Link to="/" className="btn btn-success">Continue Shopping</Link>
                         </div>
                     </div>
 
