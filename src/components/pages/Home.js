@@ -31,6 +31,7 @@ function Home() {
                             <div className="col-lg-6">
                                 <h2 className="heading">Shop Online From</h2>
                                 <h1>Stores Nearby</h1>
+         
                                 <p className="home_text">Get your Delivery less than 20 minutes*</p>
 
                                 <div className="btn__box d-flex">

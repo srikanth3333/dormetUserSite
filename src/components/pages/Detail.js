@@ -5,13 +5,15 @@ import star from "../img/star.png";
 import {productDetail} from '../api/productDetail';
 import {addToCart} from '../api/addToCart';
 import {addRatings} from '../api/addRatings';
+import {cartCount} from '../api/cartCount';
 import {productRatings} from '../api/productRatings';
 import {useParams,Link,useHistory} from 'react-router-dom';
 import StarRating from '../navigation/StarRating';
 import ReactStars from "react-rating-stars-component";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-
-function Detail({token}) {
+function Detail({token, changeWord}) {
 
     const {id} = useParams();
     let history = useHistory();
@@ -21,6 +23,7 @@ function Detail({token}) {
     const [comment,setComment] = useState ('')
     const [quantity,setQuantity] = useState ('50grams')
     const [userRating,setUserRating] = useState ('')
+    const [cartNavCount,setCartNavCount] = useState ()
 
     useEffect(() => {
         productRatings(setRatings,id)
@@ -87,11 +90,19 @@ function Detail({token}) {
                                 <div className="d-flex">
                                     {token ? 
                                         <>
-                                            <button onClick={() => addToCart(id,quantity,token)} className="btn btn-outline-success me-3">ADD TO CART</button>
+                                            <button onClick={() => {
+                                                addToCart(id,quantity,token)
+                                                cartCount(setCartNavCount,token)
+                                                changeWord(cartNavCount)
+                                                toast("Added to cart Successfully")
+                                            }} className="btn btn-outline-success me-3">ADD TO CART</button>
                                             <button  onClick={() => {
-                                                addToCart(id,token)
+                                                addToCart(id,quantity,token)
+                                                cartCount(setCartNavCount,token)
+                                                changeWord(cartNavCount)
                                                 history.push('/cart')
                                             }} className="btn btn-success">BUY NOW</button>
+                                            <ToastContainer toastStyle={{ backgroundColor: "#2AA786",color: '#fff' }} />
                                         </>
                                     : 
                                         <>
@@ -104,7 +115,10 @@ function Detail({token}) {
                                 </div>
 
                                 <div className="d-flex mt-3">
-                                    <button className="btn btn-secondary" onClick={() => addFavourites(product.id)}>ADD TO FAVOURITES</button>
+                                    <button className="btn btn-secondary" onClick={() => {
+                                        addFavourites(product.id)
+                                        toast("Added to Favourites")
+                                    }}>ADD TO FAVOURITES</button>
                                     <button className="btn btn-secondary">SHARE THIS PRODUCT</button>
                                 </div>
 
@@ -124,7 +138,7 @@ function Detail({token}) {
                                     return (
                                         <>
                                             <div className="d-flex align-items-center my-3">
-                                                <p className="user-name mb-0 me-2 mb-0">{rating.user.username}</p>
+                                                <p className="user-name mb-0 me-2 mb-0">{rating.user.first_name ? rating.user.first_name : 'Random User'}</p>
                                                     <StarRating ratings={rating.ratings} />
                                                 <p className="mb-0 ms-2 mb-0">{rating.ratings} Rating</p>
                                             </div>

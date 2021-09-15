@@ -1,14 +1,34 @@
-import React, {useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Link,useHistory} from 'react-router-dom';
+import {categories} from '../api/categories';
+import {cartCount} from '../api/cartCount';
 
 
-function Navbar({token,userCart}) {
+function Navbar({changeWord,token,userCart}) {
+
+    let history = useHistory()
+
+    const [category,setCategory] = useState([])
+    const [searchText,setSearchText] = useState('')
+    const [changeMyText,setChangeMyText] = useState('')
+
+    useEffect(() => {
+        categories(setCategory)
+        cartCount(setChangeMyText,token)
+    }, [])
+
+    const productCategory = (id) => history.push(`/products/category/${id}`)
+    const searchForm = (e) => {
+        e.preventDefault();
+        history.push(`/products/search/${searchText}`)
+    }
+
 
     
     return (
         <div className="navbar_main">
             <div className="container-fluid">
-            <div className="row justify-content-between">
+            <div className="row justify-content-evenly">
                 <div className="col-lg-2">
                     <div className="form-groups">
                         <div class="input-group">
@@ -19,20 +39,28 @@ function Navbar({token,userCart}) {
                                 </svg>
                             </span>
                         </div>
-                         <input type="text" class="form-control reg_input" readOnly placeholder="Hyderabad" aria-label="Username" aria-describedby="basic-addon1" />
+                            <input type="text" class="form-control reg_input" readOnly placeholder={changeMyText} aria-label="Username" aria-describedby="basic-addon1" />
+                            
                         </div>
                     </div>
                 </div>
                 <div className="col-lg-6">
                     <div className="form-groups">
-                            <div class="input-group ">
-                            <div class="input-group-prepend">
-                                {/* <span class="input-group-text" id="basic-addon1">@</span> */}
-                                <select name="" id="" className="form-control select">
-                                    <option className="text-success" value="">All Categories</option>
-                                </select>
-                            </div>
-                            <input type="text" class="form-control reg_input" placeholder="Search for product or grocery" aria-label="Username" aria-describedby="basic-addon1" />
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <select name="" onChange={(e) => productCategory(e.target.value)} id="" className="form-control select">
+                                        <option className="text-success" selected>All Categories</option>
+                                        {category.map((item) => {
+                                            return (
+                                                <option className="text-success" value={item.id}>{item.category_name}</option>
+                                            )
+                                        })}
+                                    </select>
+                                </div>
+                                
+                                    <input type="text" onChange={(e) => setSearchText(e.target.value)}class="form-control reg_input" placeholder="Search for product or grocery" aria-label="Username" aria-describedby="basic-addon1" />
+                                    <button type="submit" onClick={(e) => searchForm(e)} class="btn btn-primary">Search</button>
+                                
                             </div>
                     </div>
                 </div>
@@ -64,16 +92,18 @@ function Navbar({token,userCart}) {
                                 </Link>
                                     
                                 </div>
-                                <div className="text-right ">
+                                {/* <div className="text-right ">
                                     <p className="text-white">Your Cart <br/>
                                     <span style={{fontSize: '1.3em',color: '#fff'}}>$625</span>
                                     </p>
-                                </div>
+                                </div> */}
                             </>
                           : 
                           <>    
-                                <Link to="/login" className="btn btn-light mx-3">Login</Link> 
-                                <Link to="/login" className="btn btn-light">Sign Up</Link>
+                                <div>
+                                    <Link to="/login" className="btn btn-light mx-3">Login</Link> 
+                                    <Link to="/login" className="btn btn-light">Sign Up</Link>    
+                                </div>
                             </>
                         }
                          

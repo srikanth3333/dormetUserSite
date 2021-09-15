@@ -3,6 +3,8 @@ import { useLocation,useHistory } from "react-router-dom";
 import axios from 'axios';
 import OtpInput from 'react-otp-input';
 import $ from 'jquery';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
 
@@ -42,6 +44,9 @@ function Login() {
             if(response.data.message =='success') {
                 window.location.href = '/'
                 localStorage.setItem('loginStatus','loggedIn')
+                
+            }else {
+                toast("Wrong OTP")
             }
         })
         .catch(function (error) {
@@ -72,6 +77,7 @@ function Login() {
                 setShowOtp(true)
                 localStorage.setItem("user_otp",result.otp)
                 localStorage.setItem("mobile_number",mobile)
+                toast("OTP Sent Successfully")
             }
         })
         .catch(error => console.log('error', error));
@@ -79,6 +85,7 @@ function Login() {
 
     return (
         <div className="register">
+            <ToastContainer toastStyle={{ backgroundColor: "#2AA786",color: '#fff' }} />
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-lg-6">

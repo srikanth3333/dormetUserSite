@@ -8,14 +8,19 @@ import {cartList} from '../api/cartList';
 import {addToCart} from '../api/addToCart';
 import {removeFromCart} from '../api/removeFromCart';
 import {removeSingleFromCart} from '../api/removeSingleFromCart';
-import {useHistory,Link} from 'react-router-dom'
+import {useHistory,Link} from 'react-router-dom';
+import {cartCount} from '../api/cartCount';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function Cart({token}) {
+function Cart({token,changeWord}) {
 
     const [cartItem,setCartItem] = useState([])
     const [discount, setDiscount] = useState(0)
     const [count, setCount] = useState('')
     const [price, setPrice] = useState('')
+
+    const [cartNavCount,setCartNavCount] = useState ()
 
 
 
@@ -24,7 +29,6 @@ function Cart({token}) {
         cartList(setCartItem,token,discount,setCount,setPrice)
     }, [count])
 
-    console.log(token)
     
     return (
         <div className="main-cart">
@@ -58,6 +62,9 @@ function Cart({token}) {
                                                                 cartList(setCartItem,token,discount,setCount,setPrice)
                                                                 removeSingleFromCart(list.item.id,token)
                                                                 cartList(setCartItem,token,discount,setCount,setPrice)
+                                                                cartCount(setCartNavCount,token)
+                                                                changeWord(cartNavCount)
+                                                                toast("Quantity Decreased")
                                                             }}
                                                         style={{color: '#2AA786'}} fontSize="large" />
                                                                 <span className="mx-3">{list.quantity}</span>
@@ -65,7 +72,11 @@ function Cart({token}) {
                                                             cartList(setCartItem,token,discount,setCount,setPrice)
                                                             addToCart(list.item.id,list.quantity_in_grams,token)
                                                             cartList(setCartItem,token,discount,setCount,setPrice)
+                                                            cartCount(setCartNavCount,token)
+                                                            changeWord(cartNavCount)
+                                                            toast("Quantity Updated")
                                                         }} style={{color: '#2AA786'}} fontSize="large" />
+                                                        <ToastContainer toastStyle={{ backgroundColor: "#2AA786",color: '#fff' }} />
                                                 </td>
                                             <td>{list.item.offer_price ? list.item.offer_price : list.item.price} <del>{list.item.price}</del></td>
                                             <td><DeleteIcon
@@ -73,6 +84,9 @@ function Cart({token}) {
                                                     cartList(setCartItem,token,discount,setCount,setPrice)
                                                     removeFromCart(list.item.id,token)
                                                     cartList(setCartItem,token,discount,setCount,setPrice)
+                                                    cartCount(setCartNavCount,token)
+                                                    changeWord(cartNavCount)
+                                                    toast("Product Removed Successfully")
                                                 }}
                                             
                                             style={{color: '#2AA786'}} fontSize="large" /></td>

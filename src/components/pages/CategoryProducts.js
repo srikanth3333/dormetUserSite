@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import Footer from '../navigation/Footer';
-import {shopProducts} from '../api/shopProducts';
+import {categoryDetail} from '../api/categoryDetail';
 import {useParams} from 'react-router-dom';
 import Product from '../navigation/Product';
 import {allRatings} from '../api/allRatings';
 
-function ShopProducts() {
+function CategoryProducts() {
 
 
     let {id} = useParams()
@@ -15,7 +15,7 @@ function ShopProducts() {
     
 
     useEffect(() => {
-        shopProducts(setProducts,id)
+        categoryDetail(setProducts,id)
         allRatings(setRatings)
     }, [])
 
@@ -26,13 +26,13 @@ function ShopProducts() {
                 <div className="products">
                     <section className="content py-2">
                         <div className="container-fluid">
-                            <h2 className="text-center">Shop products</h2>
+                            <h2 className="text-center">Category Based products</h2>
                             <div className="row">
-                                    <div className="col-lg-12">
-                                        <div className="row">
-                                            <Product product={products} mainRatings={ratings} />
-                                        </div>
+                                <div className="col-lg-12">
+                                    <div className="row">
+                                        <Product product={products} mainRatings={ratings} />
                                     </div>
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -42,4 +42,4 @@ function ShopProducts() {
     )
 }
 
-export default ShopProducts;
+export default CategoryProducts;

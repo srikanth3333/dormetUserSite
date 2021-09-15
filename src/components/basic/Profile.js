@@ -1,5 +1,7 @@
 import React, {useState,useEffect} from 'react';
 import {profile} from '../api/profile';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Profile() {
 
@@ -34,6 +36,7 @@ function Profile() {
         axios(config)
         .then(function (response) {
             profile(setEmail,setName,setMobile)
+            toast("Profile Updated Successfully")
         })
         .catch(function (error) {
             console.log(error);
@@ -71,6 +74,7 @@ function Profile() {
                     <button type="submit" className="btn btn-success">Update Profile</button>
                 </div>
             </form>
+            <ToastContainer toastStyle={{ backgroundColor: "#2AA786",color: '#fff' }} />
         </div>
     )
 }

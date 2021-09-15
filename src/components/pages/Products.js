@@ -29,16 +29,14 @@ function All() {
                         
                             <div className="row">
 
-                                <div className="col-lg-3">
+                                {/* <div className="col-lg-3">
                                     <h4>Filters</h4>
-                                </div>
-                                    <div className="col-lg-9">
+                                </div> */}
+                                    <div className="col-lg-12">
                                         <div className="row">
                                             <Product product={products} mainRatings={ratings} />
                                         </div>
                                 </div>
-                                
-
                             </div>
                             
                         </div>

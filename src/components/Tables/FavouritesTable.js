@@ -2,7 +2,9 @@ import React, {useState, useEffect} from 'react';
 import MaterialTable from 'material-table';
 import Button from '@material-ui/core/Button';
 import {useHistory} from 'react-router-dom';
-import {favourites} from '../api/favourites'
+import {favourites} from '../api/favourites';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function FavouritesTable() {
@@ -68,9 +70,15 @@ function FavouritesTable() {
             editable: false,
             render: (rowData) =>
                 rowData && (
-                 <Button variant="contained" onClick={() => removeFavourites(rowData.id)}  style={{background: '#D04545',color: '#fff'}}>
-                    Remove
-                  </Button>
+                 <>
+                    <Button variant="contained" onClick={() => {
+                        toast("Removed from favorites") 
+                        removeFavourites(rowData.id)
+                    } }  style={{background: '#D04545',color: '#fff'}}>
+                        Remove
+                    </Button>
+                    
+                 </>
                 )
         },
 
@@ -84,7 +92,7 @@ function FavouritesTable() {
                      console.log(rowData.id)
                      history.push(`/detail/${rowData.id}`)
                  }} variant="contained"  style={{background: 'green',color: '#fff'}}>
-                    View Order
+                    View Item
                   </Button>
                 )
         },
@@ -94,6 +102,7 @@ function FavouritesTable() {
 
     return (
             <div id="content">
+                <ToastContainer toastStyle={{ backgroundColor: "#2AA786",color: '#fff' }} />
                 <MaterialTable 
                     title="All Orders" 
                     data={itemFavourites}

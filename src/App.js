@@ -15,6 +15,8 @@ import Confirmation from './components/pages/Confirmation';
 import MyOrders from './components/pages/MyOrders';
 import MyAccount from './components/pages/MyAccount';
 import Favourites from './components/pages/Favourites';
+import CategoryProducts from './components/pages/CategoryProducts';
+import Search from './components/pages/Search';
 import PageNotFound from './components/basic/PageNotFound';
 import {cartCount} from './components/api/cartCount';
 import ShopProducts from './components/pages/ShopProducts';
@@ -30,7 +32,7 @@ import Navbar from './components/navigation/Navbar';
 function App() {
 
   const [userToken, setUserToken] = useState('')
-  const [count, setCount] = useState('')
+  const [word,setWord] = useState('')
 
 
   const retrieveToken = (mobile) => {
@@ -48,8 +50,8 @@ function App() {
     axios(config)
     .then(function (response) {
       setUserToken(response.data.token)
-      // cartCount(setCount,response.data.token)
       localStorage.setItem('user_token',response.data.token)
+      cartCount(setWord,response.data.token)
     })
     .catch(function (error) {
       console.log(error);
@@ -60,15 +62,15 @@ function App() {
   useEffect(() => {
     var mobile = localStorage.getItem('mobile_number')
     retrieveToken(mobile)
-  }, [])
+  }, [word])
   
   return (
     <div className="app">
       <Router>
-        <Navbar token={userToken} userCart={count} />
+        <Navbar  token={userToken} userCart={word} />
         <Switch>
           <Route exact path="/">
-            <Home  />
+            <Home />
           </Route>
           <Route exact path="/login">
             {userToken ? <Redirect to="/" /> : <Login  />}
@@ -85,14 +87,20 @@ function App() {
           <Route exact path="/products/shops/:id">
             <ShopProducts />
           </Route>
+          <Route exact path="/products/category/:id">
+            <CategoryProducts />
+          </Route>
+          <Route exact path="/products/search/:query">
+            <Search />
+          </Route>
           <Route exact path="/shops">
             <Shop />
           </Route>
           <Route exact path="/detail/:id">
-            <Detail token={userToken} />
+            <Detail changeWord={word => setWord(word)} userCart={word} token={userToken} />
           </Route>
           <Route exact path="/cart">
-            <Cart token={userToken} />
+            <Cart changeWord={word => setWord(word)} token={userToken} />
           </Route>
           <Route exact path="/checkout">
             <Checkout token={userToken} />
@@ -101,7 +109,7 @@ function App() {
             <Review token={userToken} />
           </Route>
           <Route exact path="/payment">
-            <Payment token={userToken} />
+            <Payment changeWord={word => setWord(word)} token={userToken} />
           </Route>
           <Route exact path="/confirmation/:id">
             <Confirmation token={userToken} />

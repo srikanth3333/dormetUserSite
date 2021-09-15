@@ -5,12 +5,15 @@ import card from "../img/card.jpg";
 import {cartList} from '../api/cartList';
 import {useHistory} from 'react-router-dom';
 import {payment} from '../api/payment';
+import {cartCount} from '../api/cartCount';
 
-function Payment({token}) {
+function Payment({changeWord,token}) {
 
     const [cartItem,setCartItem] = useState([])
     const [count, setCount] = useState('')
     const [price, setPrice] = useState('')
+    const [cartNavCount,setCartNavCount] = useState ()
+
 
     let history = useHistory()
 
@@ -38,6 +41,8 @@ function Payment({token}) {
             let shop_name = cartItem[0].item.shop.shop_name
             if(response.razorpay_payment_id) {
                 payment(price,response.razorpay_payment_id,order_id,shop_name)
+                cartCount(setCartNavCount,token)
+                changeWord(cartNavCount)
                 history.push(`/confirmation/${order_id}`)
             }else {
                 alert("Your Payment is not completed")
