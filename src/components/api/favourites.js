@@ -8,7 +8,7 @@ export const favourites = (favourite) => {
 
     var config = {
         method: 'GET',
-        url: `http://127.0.0.1:8000/products/favourites`,
+        url: `https://smyworks.com/products/favourites`,
         headers: { 
             'Authorization': `token ${tokenUser}`, 
         },

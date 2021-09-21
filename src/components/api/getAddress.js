@@ -12,7 +12,7 @@ export const getAddress = (address,token) => {
 
     var config = {
         method: 'get',
-        url: 'http://127.0.0.1:8000/products/billing',
+        url: 'https://smyworks.com/products/billing',
         headers: { 
             'Authorization': `token ${tokenUser}`, 
         }

@@ -26,14 +26,21 @@ function Search() {
                 <div className="products">
                     <section className="content py-2">
                         <div className="container-fluid">
-                            <h2 className="text-center">Search Based products</h2>
-                            <div className="row">
-                                <div className="col-lg-12">
-                                    <div className="row">
-                                        <Product product={products} mainRatings={ratings} />
+                            {products.length > 0
+                                ?
+                                <>
+                                <h2 className="text-center">Search Based products</h2>
+                                <div className="row">
+                                    <div className="col-lg-12">
+                                        <div className="row">
+                                            <Product product={products} mainRatings={ratings} />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                                </>
+                                :
+                                <h2 className="text-center">No Products Found</h2>
+                            }
                         </div>
                     </section>
                 </div>

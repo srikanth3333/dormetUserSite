@@ -6,7 +6,7 @@ export const allRatings = (ratings) => {
     
     var config = {
       method: 'get',
-      url: `http://127.0.0.1:8000/products/allRatings`,
+      url: `https://smyworks.com/products/allRatings`,
     };
     
     axios(config)

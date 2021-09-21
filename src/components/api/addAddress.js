@@ -17,7 +17,7 @@ export const addAddress = (fName,lName,email,address1,address2,pincode,city,stat
 
     var config = {
         method: 'POST',
-        url: 'http://127.0.0.1:8000/products/billing',
+        url: 'https://smyworks.com/products/billing',
         headers: { 
             'Authorization': `token ${tokenUser}`,
         },

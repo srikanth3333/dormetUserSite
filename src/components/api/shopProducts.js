@@ -8,7 +8,7 @@ export const shopProducts = (shopProduct,id) => {
 
     var config = {
         method: 'get',
-        url: `http://127.0.0.1:8000/products/shopProducts/${id}`,
+        url: `https://smyworks.com/products/shopProducts/${id}`,
     
     };
 

@@ -9,7 +9,7 @@ export const myOrders = (order) => {
     let tokenUser = localStorage.getItem('user_token')
     var config = {
         method: 'get',
-        url: 'http://127.0.0.1:8000/products/my_orders',
+        url: 'https://smyworks.com/products/my_orders',
         headers: { 
             'Authorization': `token ${tokenUser}`, 
         }

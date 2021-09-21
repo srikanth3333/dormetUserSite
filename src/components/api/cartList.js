@@ -13,7 +13,7 @@ export const cartList = (setCartItem,token,discount,count,price) => {
 
     var config = {
         method: 'get',
-        url: 'http://127.0.0.1:8000/products/cart_list',
+        url: 'https://smyworks.com/products/cart_list',
         headers: { 
             'Authorization': `token ${tokenUser}`, 
         },

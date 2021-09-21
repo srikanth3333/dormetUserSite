@@ -10,7 +10,7 @@ export const addToCart = (id,quantity,token) => {
 
     var config = {
         method: 'post',
-        url: `http://127.0.0.1:8000/products/add_to_cart`,
+        url: `https://smyworks.com/products/add_to_cart`,
         headers: { 
             'Authorization': `token ${token}`, 
         },

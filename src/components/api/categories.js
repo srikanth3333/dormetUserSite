@@ -11,7 +11,7 @@ export const categories = (category) => {
 
     var config = {
         method: 'GET',
-        url: 'http://127.0.0.1:8000/category/listOfCategories',
+        url: 'https://smyworks.com/category/listOfCategories',
         headers: { 
             'Authorization': `token ${tokenUser}`, 
         },

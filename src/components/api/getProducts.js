@@ -6,7 +6,7 @@ export const getProducts = (products) => {
     
     var config = {
       method: 'get',
-      url: `http://127.0.0.1:8000/products/listOfProducts`,
+      url: `https://smyworks.com/products/listOfProducts`,
     };
     
     axios(config)

@@ -7,7 +7,7 @@ export const trackOrder = (track,id,setTracker) => {
 
     var config = {
         method: 'POST',
-        url: `http://127.0.0.1:8000/products/track_order/${id}`,
+        url: `https://smyworks.com/products/track_order/${id}`,
         headers: { 
             'Authorization': `token ${tokenUser}`, 
         },

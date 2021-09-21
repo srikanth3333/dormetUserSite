@@ -8,7 +8,7 @@ export const removeSingleFromCart = (id,token) => {
 
     var config = {
         method: 'post',
-        url: `http://127.0.0.1:8000/products/remove_single_item_from_cart`,
+        url: `https://smyworks.com/products/remove_single_item_from_cart`,
         headers: { 
             'Authorization': `token ${token}`, 
         },

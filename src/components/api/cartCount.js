@@ -8,7 +8,7 @@ export const cartCount = (count, token) => {
 
     var config = {
         method: 'get',
-        url: 'http://127.0.0.1:8000/products/cart_count',
+        url: 'https://smyworks.com/products/cart_count',
         headers: { 
             'Authorization': `token ${token}`, 
         },

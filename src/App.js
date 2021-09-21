@@ -43,7 +43,7 @@ function App() {
 
     var config = {
       method: 'post',
-      url: 'http://127.0.0.1:8000/api-token-auth/',
+      url: 'https://smyworks.com/api-token-auth/',
       data : data
     };
 

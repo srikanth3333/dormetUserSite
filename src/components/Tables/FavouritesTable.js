@@ -29,7 +29,7 @@ function FavouritesTable() {
 
         var config = {
             method: 'DELETE',
-            url: `http://127.0.0.1:8000/products/favourites`,
+            url: `https://smyworks.com/products/favourites`,
             headers: { 
                 'Authorization': `token ${tokenUser}`, 
             },
@@ -112,7 +112,6 @@ function FavouritesTable() {
                         actionsColumnIndex: -1
                     }}
 
-                    
 
                 />
 

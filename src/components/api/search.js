@@ -9,7 +9,7 @@ export const search = (products,query) => {
 
     var config = {
         method: 'GET',
-        url: `http://127.0.0.1:8000/category/search_products/?q=${query}`,
+        url: `https://smyworks.com/category/search_products/?q=${query}`,
         headers: { 
             'Authorization': `token ${tokenUser}`, 
         },

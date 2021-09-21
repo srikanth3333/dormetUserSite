@@ -27,7 +27,7 @@ function OrdersTable({orders}) {
         },
         {
             title: 'Created Date',field:'start_date',
-            render: (rowData) => (<Moment format="YYYY/MM/DD" >{rowData.start_date}</Moment> )
+            render: (rowData) => (<Moment format="YYYY/MM/DD" >{rowData.start_date}</Moment> ),
         },
         {
             title: 'Items',field:'items',
@@ -86,7 +86,6 @@ function OrdersTable({orders}) {
                     }}
 
                     
-
                 />
 
                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

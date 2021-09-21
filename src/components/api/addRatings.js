@@ -16,7 +16,7 @@ export const addRatings = (id,rating,comment,token,refreshRatings,setRatings) =>
 
     var config = {
         method: 'post',
-        url: `http://127.0.0.1:8000/products/add_product_ratings/`,
+        url: `https://smyworks.com/products/add_product_ratings/`,
         headers: { 
             'Authorization': `token ${token}`, 
         },

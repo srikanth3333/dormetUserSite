@@ -11,7 +11,7 @@ export const review = (review) => {
 
     var config = {
         method: 'get',
-        url: 'http://127.0.0.1:8000/products/review',
+        url: 'https://smyworks.com/products/review',
         headers: { 
             'Authorization': `token ${tokenUser}`, 
         }

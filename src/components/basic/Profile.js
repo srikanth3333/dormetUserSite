@@ -26,7 +26,7 @@ function Profile() {
 
         var config = {
             method: 'POST',
-            url: 'http://127.0.0.1:8000/products/profile',
+            url: 'https://smyworks.com/products/profile',
             headers: { 
                 'Authorization': `token ${tokenUser}`, 
             },

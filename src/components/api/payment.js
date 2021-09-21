@@ -14,7 +14,7 @@ export const payment = (amount,payment_id,order_id,shop_name) => {
     data.append('shop_name',shop_name);
     var config = {
         method: 'POST',
-        url: 'http://127.0.0.1:8000/products/payment',
+        url: 'https://smyworks.com/products/payment',
         headers: { 
             'Authorization': `token ${tokenUser}`,
         },

@@ -35,7 +35,7 @@ function Login() {
 
         var config = {
             method: 'post',
-            url: 'http://127.0.0.1:8000/accounts/otp',
+            url: 'https://smyworks.com/accounts/otp',
             data : data
         };
 
@@ -68,7 +68,7 @@ function Login() {
             redirect: 'follow'
         };
 
-        fetch("http://127.0.0.1:8000/accounts/login", requestOptions)
+        fetch("https://smyworks.com/accounts/login", requestOptions)
         .then(response => response.json())
         .then(result => {
             console.log(result.message)

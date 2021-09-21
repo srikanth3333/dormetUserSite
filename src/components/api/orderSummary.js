@@ -7,7 +7,7 @@ export const orderSummary = (summary,id) => {
     let tokenUser = localStorage.getItem('user_token')
     var config = {
         method: 'POST',
-        url: `http://127.0.0.1:8000/products/order_summary/${id}`,
+        url: `https://smyworks.com/products/order_summary/${id}`,
         headers: { 
             'Authorization': `token ${tokenUser}`, 
         }
